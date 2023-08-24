@@ -1,0 +1,94 @@
+env: multi_particle
+
+env_args:
+  animation_speed: 0
+  episode_limit: 50
+  num_agents: 5
+  num_landmarks: 1
+  rules:
+    agent_spawn_radius: 1.0
+    landmark_spawn_radius: 1.0
+
+    reward:
+      landmark_radius: 0.1
+      agent_radius: 0.15
+
+      # What is the price for a collision? shared between colliding agents
+      collisions_reward: 0.0
+
+      # landmark bonus reward type, can be either "binary", "continuous"
+      landmark_bonus_reward: "continuous"
+      landmark_bonus_coeff: 0.01
+
+      # If enviroment offers local rewards, how should the occupant reward be exhbited?
+      # can be either "first", "shared" or "closest"
+      # If coeff is a list, it must be of size num_landmarks, and corresponds to a different coeff for every reward.
+      landmark_occupant_reward: "shared"
+      landmark_occupant_coeff: 1.0
+
+    graph:
+      graph_type: "auto"            # can be either full, auto or empty
+      show_graph: False
+
+    obs:
+      # observation params - can either be "none", "count", "closest", "local", "all"
+      landmarks: "local"
+      agents: "none"
+
+      # If the current agent is on a landmark, then how many agents are on there with him?
+      show_num_agents_on_landmark: True
+
+      # In the local landmarks case, we will give the k closest landmarks. By default, k will be the max_deg + 1 of the
+      # graph if None, otherwise the number specified.
+      landmark_k: null
+
+      # Order in which landmarks are observed, can be either "constant", "random", or "sorted"
+      obs_landmarks_order: "constant"
+
+      # Should distance from landmarks be observed
+#      obs_landmarks_dists: True
+
+    # bounding params
+    bounding:
+      is_bound: True
+      bound_type: "square"
+      bound_dist: 1.0
+
+    # overrides num_agents and num_landmarks with a grid of agents
+    grid:
+      use_grid: True
+
+      # num of agents in every direction
+      num_x_agents: 10
+      num_y_agents: 1
+
+      # distances between the gridded agent's bounds
+      grid_dist_x: 0.55
+      grid_dist_y: 2.10
+
+      # how much should the odd cols of agents be offsetted in the y direction
+      grid_offset: 0
+
+      # Where should each landmark spawn relative to it's bound center?
+      landmark_spawn_offset_x: 0
+      landmark_spawn_offset_y: 0
+
+      # Where should each agent spawn relative to it's bound center?
+      agent_spawn_offset_x: 0
+      agent_spawn_offset_y: 0
+
+    manual:
+      # Allows the setting of entity base positions according to a supplied list
+      use_manual: False
+
+      agents: [[0, 0.2], [0, -0.2]]
+      landmarks: [[-0.2, 0], [0.2, 0]]
+
+test_greedy: True
+test_nepisode: 1
+test_interval: 20000
+log_interval: 20000
+save_vid_interval: 100000
+runner_log_interval: 500
+learner_log_interval: 500
+t_max: 2000000

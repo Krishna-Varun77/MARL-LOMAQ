@@ -1,0 +1,19 @@
+env: access_point
+
+env_args:
+  animation_speed: 0.1
+  episode_limit: 300
+  grid_size: 3      # grid_size X grid_size
+  params:
+    di: 2
+    pi: "uniform"   # can be either "uniform" - random [0,1] for every access_point, or int to specify
+    qk: "uniform"
+
+
+test_greedy: True
+test_nepisode: 10
+test_interval: 20000
+log_interval: 20000
+runner_log_interval: 500
+learner_log_interval: 500
+t_max: 400000

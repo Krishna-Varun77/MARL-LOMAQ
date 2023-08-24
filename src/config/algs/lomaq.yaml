@@ -1,0 +1,87 @@
+# --- Local QMIX specific parameters ---
+
+# use epsilon greedy action selector
+action_selector: "epsilon_greedy"
+epsilon_start: 1.0
+epsilon_finish: 0.05
+epsilon_anneal_time: 50000
+
+runner: "episode"
+
+buffer_size: 5000
+
+# update the target network every {} episodes
+target_update_interval: 50
+
+# use the Q_Learner to train
+agent_output_type: "q"
+learner: "q_learner"
+double_q: True
+mixer: "lomaq"
+mixing_embed_dim: 32
+hypernet_layers: 2
+hypernet_embed: 64
+
+# Local Parameters
+# by default the starting l should be 0 and should not change
+local_observer: True
+l_params:
+  start_depth_l: 0
+  growth_jump: 2
+  growth_type: "constant"   # can be either linear, exponent or constant
+  update_type: "hard"     # can be either hard or soft
+  update_interval_t: 100000
+
+# Reward decomposition variables
+decompose_reward: False
+reward_parameter_sharing: True
+reward_batch_size: 100
+reward_updates_per_batch: 100
+reward_diff_threshold: 0.05
+assume_binary_reward: False
+reward_acc: 0.999
+regularizing_weight: 0.00005
+
+# From the paper the maximal group size that the network will try to decompose by given (b2, l)
+# For example, beta2=1 with l=2 allows pairs within 1-hop neighborhood of eachother
+reward_beta2: 1
+reward_l: 2
+
+# If true clamps the rewards between 0 and 1 in the network output
+reward_clamp: False
+
+# parameter sharing for the subnet (only relevant for symmetric problems)
+submixer_parameter_sharing: False
+submixer_non_share_depth: 1
+
+# How exact is every approximation of the value function
+value_depth_k: 1
+
+# Glocal rewards parameters
+reward_depth_k: 0
+
+# How do we enforce monotonicity constraints? In QMIX, this was simply done by non-negative weights. Since this
+# unnecesserily enforces that every Q_i is monotonic as well, we implement monotonicity constraints in a second
+# method, that adds a loss factor for negative gradients.
+p_enforce: "full"                        # What partition of monotonicity should we enforce here
+monotonicity_method: "regularization"    # method can be either "weights" or "regularization"
+monotonicity_coeff: 0.5
+
+### GCN parameters
+use_gcn: False
+
+# Submixer params
+submixer_use_local_state: False
+submixer_hyper_hidden_size: 16
+submixer_hidden_size: 32
+submixer_hypernet_layers: 2
+share_first_layer: False
+#submixer_use_local_state: True - NOT IMPLEMENTED...
+
+# GCN params
+gnn_feature_size: 8
+gnn_hyper_hidden_size: 32
+gnn_hyper_layers: 2
+use_hyper_network: False
+
+name: "lomaq"
